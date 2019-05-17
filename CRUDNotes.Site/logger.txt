@@ -1,0 +1,84 @@
+Request starting HTTP/2.0 GET https://localhost:44372/  
+Route matched with {action = "Index", controller = "Home"}. Executing action CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site)
+Executing action method CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site) - Validation state: Valid
+Entity Framework Core 2.2.4-servicing-10062 initialized 'DataBaseContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=Data Access Layer 
+Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [n].[NoteId], [n].[Content], [n].[CreateDate]
+FROM [Notes] AS [n]
+Executed action method CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site), returned result Microsoft.AspNetCore.Mvc.ViewResult in 463.3565ms.
+Executing ViewResult, running view Index.
+Executed ViewResult - view Index executed in 110.0118ms.
+Executed action CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site) in 624.1646ms
+Request finished in 862.3418ms 200 text/html; charset=utf-8
+Request starting HTTP/2.0 GET https://localhost:44372/Home/Create  
+Route matched with {action = "Create", controller = "Home"}. Executing action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site)
+Executing action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) - Validation state: Valid
+Executed action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.4587ms.
+Executing ViewResult, running view Create.
+Executed ViewResult - view Create executed in 48.9267ms.
+Executed action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) in 60.7279ms
+Request finished in 85.5333ms 200 text/html; charset=utf-8
+Request starting HTTP/2.0 POST https://localhost:44372/Home/Create application/x-www-form-urlencoded 195
+Route matched with {action = "Create", controller = "Home"}. Executing action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site)
+Executing action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) with arguments (CRUDNotes.Site.Models.NoteModel) - Validation state: Valid
+Entity Framework Core 2.2.4-servicing-10062 initialized 'DataBaseContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=Data Access Layer 
+Executed DbCommand (3ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Notes] ([Content], [CreateDate])
+VALUES (@p0, @p1);
+SELECT [NoteId]
+FROM [Notes]
+WHERE @@ROWCOUNT = 1 AND [NoteId] = scope_identity();
+File created with content2132
+Executed action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site), returned result Microsoft.AspNetCore.Mvc.RedirectToActionResult in 276.2887ms.
+Executing RedirectResult, redirecting to /.
+Executed action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) in 338.1514ms
+Request finished in 372.5274ms 302 
+Request starting HTTP/2.0 GET https://localhost:44372/  
+Route matched with {action = "Index", controller = "Home"}. Executing action CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site)
+Executing action method CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site) - Validation state: Valid
+Entity Framework Core 2.2.4-servicing-10062 initialized 'DataBaseContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=Data Access Layer 
+Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [n].[NoteId], [n].[Content], [n].[CreateDate]
+FROM [Notes] AS [n]
+Executed action method CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site), returned result Microsoft.AspNetCore.Mvc.ViewResult in 9.0729ms.
+Executing ViewResult, running view Index.
+Executed ViewResult - view Index executed in 4.1097ms.
+Executed action CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site) in 24.4158ms
+Request finished in 47.3195ms 200 text/html; charset=utf-8
+Request starting HTTP/2.0 GET https://localhost:44372/Home/Create  
+Route matched with {action = "Create", controller = "Home"}. Executing action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site)
+Executing action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) - Validation state: Valid
+Executed action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site), returned result Microsoft.AspNetCore.Mvc.ViewResult in 0.0339ms.
+Executing ViewResult, running view Create.
+Executed ViewResult - view Create executed in 5.905ms.
+Executed action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) in 24.2383ms
+Request finished in 59.5089ms 200 text/html; charset=utf-8
+Request starting HTTP/2.0 POST https://localhost:44372/Home/Create application/x-www-form-urlencoded 196
+Route matched with {action = "Create", controller = "Home"}. Executing action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site)
+Executing action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) with arguments (CRUDNotes.Site.Models.NoteModel) - Validation state: Valid
+Entity Framework Core 2.2.4-servicing-10062 initialized 'DataBaseContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=Data Access Layer 
+Executed DbCommand (4ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Notes] ([Content], [CreateDate])
+VALUES (@p0, @p1);
+SELECT [NoteId]
+FROM [Notes]
+WHERE @@ROWCOUNT = 1 AND [NoteId] = scope_identity();
+File created with contentwowow
+Executed action method CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site), returned result Microsoft.AspNetCore.Mvc.RedirectToActionResult in 24.5134ms.
+Executing RedirectResult, redirecting to /.
+Executed action CRUDNotes.Site.Controllers.HomeController.Create (CRUDNotes.Site) in 37.6888ms
+Request finished in 52.3023ms 302 
+Request starting HTTP/2.0 GET https://localhost:44372/  
+Route matched with {action = "Index", controller = "Home"}. Executing action CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site)
+Executing action method CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site) - Validation state: Valid
+Entity Framework Core 2.2.4-servicing-10062 initialized 'DataBaseContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=Data Access Layer 
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [n].[NoteId], [n].[Content], [n].[CreateDate]
+FROM [Notes] AS [n]
+Executed action method CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site), returned result Microsoft.AspNetCore.Mvc.ViewResult in 8.0433ms.
+Executing ViewResult, running view Index.
+Executed ViewResult - view Index executed in 4.5896ms.
+Executed action CRUDNotes.Site.Controllers.HomeController.Index (CRUDNotes.Site) in 22.4013ms
+Request finished in 40.2554ms 200 text/html; charset=utf-8

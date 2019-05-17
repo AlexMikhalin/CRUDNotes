@@ -1,0 +1,18 @@
+﻿@model CRUDNotes.Site.Models.NoteModel
+
+<h1>Записная книга</h1>
+
+<form asp-action="Edit" asp-controller="Home" asp-anti-forgery="true">
+    <div>
+        <div class="form-group">
+            <label asp-for="Content">Изменить запись</label>
+            <input type="text" asp-for="@Model.Content" />
+            <input type="text" asp-for="@Model.NoteId" />
+            <input type="text" asp-for="@Model.CreateDate" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Отправить" class="btn" />
+        </div>
+    </div>
+</form>

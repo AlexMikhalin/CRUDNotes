@@ -1,0 +1,19 @@
+﻿@model IEnumerable<CRUDNotes.Common.NoteDTO>
+
+<a asp-action="Create" asp-controller="Home">Добавить модель</a>
+
+<h1>Список всех записей</h1>
+
+<table class="table">
+    <tr><td>Контент</td>    <td>Время Создания</td>    <td>ID</td></tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.Content</td>
+        <td>@item.CreateDate</td>
+        <td>@item.NoteId</td>
+        <td><a asp-action="Delete" asp-controller="Home" asp-route-id="@item.NoteId">Удалить</a></td>
+        <td><a asp-action="Edit" asp-controller="Home" asp-route-id="@item.NoteId">Изменить</a> </td>
+    </tr>
+    }
+</table>
