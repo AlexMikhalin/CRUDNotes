@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CRUDNotes.BL.Repositories;
 using CRUDNotes.Common;
 using CRUDNotes.Site.Models;
@@ -54,14 +55,14 @@ namespace CRUDNotes.Site.Controllers
         public IActionResult Edit(int id)
         {
             var editedNote = _noteService.GetNote(id);
-            return View(new NoteModel(){Content = editedNote.Content,CreateDate = editedNote.CreateDate, NoteId = editedNote.NoteId});
+            return View(Mapper.Map(editedNote,new NoteModel()));
         }
 
         [HttpPost]
         public IActionResult Edit(NoteModel model)
         {
 
-            _noteService.EditNote(new NoteDTO(){Content = model.Content,CreateDate = model.CreateDate,NoteId = model.NoteId});
+            _noteService.EditNote(Mapper.Map(model,new NoteDTO()));
 
             return RedirectToAction("Index");
         }

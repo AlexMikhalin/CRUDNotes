@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CRUDNotes.BL.Repositories;
 using CRUDNotes.BL.Services;
+using CRUDNotes.Common;
 using CRUDNotes.DAL.EF;
+using CRUDNotes.DAL.Entities;
 using CRUDNotes.DAL.Repositories;
+using CRUDNotes.Site.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +38,7 @@ namespace CRUDNotes.Site
             services.AddTransient<INoteService, NoteService>();
 
             services.AddMvc();
+            Mapper.Initialize(cfg => cfg.CreateMap<NoteDTO, Note>());
 
         }
 

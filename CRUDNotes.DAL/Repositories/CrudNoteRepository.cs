@@ -10,6 +10,7 @@ using CRUDNotes.DAL.EF;
 using CRUDNotes.DAL.Entities;
 using Dapper;
 using Remotion.Linq.Clauses;
+using AutoMapper;
 
 namespace CRUDNotes.DAL.Repositories
 {
@@ -27,7 +28,9 @@ namespace CRUDNotes.DAL.Repositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                var sqlQuery = "INSERT INTO Notes (Content,CreateDate) VALUES (@Content, @CreateDate)";
-               db.Execute(sqlQuery,new Note() {Content = dto.Content, CreateDate = DateTime.Now});
+               var note = Mapper.Map(dto, new Note());
+               note.CreateDate = DateTime.Now;
+               db.Execute(sqlQuery, note);
             }
         }
 
@@ -35,15 +38,7 @@ namespace CRUDNotes.DAL.Repositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var allNotes = db.Query<Note>("SELECT * FROM Notes").ToList();  
-                List<NoteDTO> resultList = new List<NoteDTO>();
-
-                foreach (var n in allNotes)
-                {
-                    resultList.Add(new NoteDTO() {Content = n.Content, CreateDate = n.CreateDate, NoteId = n.NoteId});
-                }
-
-                return resultList;
+                return Mapper.Map<IEnumerable<Note>,List<NoteDTO>>(db.Query<Note>("SELECT * FROM Notes").ToList());  
             }
         }
 
@@ -62,8 +57,7 @@ namespace CRUDNotes.DAL.Repositories
             {
                 Note noteEntity =  db.Query<Note>("SELECT * FROM Notes WHERE NoteId = @id", new { id }).FirstOrDefault();
                 if (noteEntity != null)
-                    return new NoteDTO()
-                        {Content = noteEntity.Content, NoteId = noteEntity.NoteId, CreateDate = noteEntity.CreateDate};
+                    return Mapper.Map(noteEntity,new NoteDTO());
                 return null;
             }
         }
@@ -73,7 +67,9 @@ namespace CRUDNotes.DAL.Repositories
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 var sqlQuery = "UPDATE Notes SET Content = @Content, CreateDate = @CreateDate WHERE NoteId = @NoteId";
-                db.Execute(sqlQuery,new Note(){NoteId = dto.NoteId, Content = dto.Content, CreateDate = DateTime.Now});
+                var note = Mapper.Map(dto, new Note());
+                note.CreateDate = DateTime.Now;
+                db.Execute(sqlQuery, note);
             }
         }
     }
