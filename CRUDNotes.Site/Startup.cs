@@ -28,19 +28,18 @@ namespace CRUDNotes.Site
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddTransient<ICrudNoteRepository, CrudNoteRepository>();
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddTransient<ICrudNoteRepository, CrudNoteRepository>(provider => new CrudNoteRepository(connection));
             services.AddTransient<INoteService, NoteService>();
 
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(connection));
+            services.AddMvc();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataBaseContext context, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         { 
-            context.Database.EnsureCreated();
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
             if (env.IsDevelopment())
             {

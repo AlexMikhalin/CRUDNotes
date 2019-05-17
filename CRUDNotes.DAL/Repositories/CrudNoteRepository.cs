@@ -1,68 +1,79 @@
 ﻿using CRUDNotes.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using CRUDNotes.DAL.EF;
 using CRUDNotes.DAL.Entities;
+using Dapper;
+using Remotion.Linq.Clauses;
 
 namespace CRUDNotes.DAL.Repositories
 {
     public class CrudNoteRepository : ICrudNoteRepository
     {
-        public DataBaseContext _db;
 
-        public CrudNoteRepository(DataBaseContext context)
+        string connectionString = null;
+
+        public CrudNoteRepository(string conn)
         {
-            _db = context;
+            connectionString = conn;
         }
         public void CreateNote(NoteDTO dto)
         {
-            _db.Notes.Add(new Note() {Content = dto.Content, CreateDate = DateTime.Now});
-            _db.SaveChanges();
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+               var sqlQuery = "INSERT INTO Notes (Content,CreateDate) VALUES (@Content, @CreateDate)";
+               db.Execute(sqlQuery,new Note() {Content = dto.Content, CreateDate = DateTime.Now});
+            }
         }
 
         public List<NoteDTO> FindAllNotes()
         {
-            var allNotes = _db.Notes.ToList();
-            List<NoteDTO> resultList = new List<NoteDTO>();
-
-            foreach (var n in allNotes)
+            using (IDbConnection db = new SqlConnection(connectionString))
             {
-                resultList.Add(new NoteDTO(){ Content = n.Content, CreateDate = n.CreateDate, NoteId = n.NoteId });
-            }
+                var allNotes = db.Query<Note>("SELECT * FROM Notes").ToList();  
+                List<NoteDTO> resultList = new List<NoteDTO>();
 
-            return resultList;
+                foreach (var n in allNotes)
+                {
+                    resultList.Add(new NoteDTO() {Content = n.Content, CreateDate = n.CreateDate, NoteId = n.NoteId});
+                }
+
+                return resultList;
+            }
         }
 
         public void DeleteNote(int id)
         {
-            Note note = _db.Notes.FirstOrDefault(n => n.NoteId == id);
-            if (note != null)
+            using (IDbConnection db = new SqlConnection(connectionString))
             {
-                _db.Notes.Remove(note);
-                _db.SaveChanges();
+                var sqlQuery = "DELETE FROM Notes WHERE NoteId = @id";
+                db.Execute(sqlQuery, new { id });
             }
         }
 
         public NoteDTO FindNote(int id)
         {
-            Note noteEntity = _db.Notes.FirstOrDefault(p => p.NoteId == id);
-            if (noteEntity !=null)
-                 return new NoteDTO(){ Content = noteEntity.Content, NoteId = noteEntity.NoteId, CreateDate = noteEntity.CreateDate };
-            return null;
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                Note noteEntity =  db.Query<Note>("SELECT * FROM Notes WHERE NoteId = @id", new { id }).FirstOrDefault();
+                if (noteEntity != null)
+                    return new NoteDTO()
+                        {Content = noteEntity.Content, NoteId = noteEntity.NoteId, CreateDate = noteEntity.CreateDate};
+                return null;
+            }
         }
 
         public void EditNote(NoteDTO dto)
         {
-            Note note = _db.Notes.FirstOrDefault(n => n.NoteId == dto.NoteId);
-            if (note != null)
+            using (IDbConnection db = new SqlConnection(connectionString))
             {
-                note.Content = dto.Content;
-                note.CreateDate = DateTime.Now;
-                _db.Notes.Update(note);
-                _db.SaveChanges();
+                var sqlQuery = "UPDATE Notes SET Content = @Content, CreateDate = @CreateDate WHERE NoteId = @NoteId";
+                db.Execute(sqlQuery,new Note(){NoteId = dto.NoteId, Content = dto.Content, CreateDate = DateTime.Now});
             }
         }
     }
