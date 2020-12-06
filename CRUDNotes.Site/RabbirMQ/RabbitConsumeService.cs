@@ -25,11 +25,7 @@ namespace CRUDNotes.Site.RabbirMQ
         public RabbitConsumeService(ILoggerFactory loggerFactory, ICrudNoteRepository crudNoteRepository)
         {
             _crudNoteRepository = crudNoteRepository;
-            InitRabbitMQ();
-        }
 
-        private void InitRabbitMQ()
-        {
             var factory = new ConnectionFactory { HostName = "localhost" };
 
             _connection = factory.CreateConnection();
@@ -55,8 +51,7 @@ namespace CRUDNotes.Site.RabbirMQ
 
         private void HandleMessage(BasicDeliverEventArgs fullPathFile)
         {
-            var file = Helper.FromByteArray<NoteDTO>(fullPathFile.Body.Span.ToArray());
-            _crudNoteRepository.CreateNote(file);
+            _crudNoteRepository.CreateNote(Helper.FromByteArray<NoteDTO>(fullPathFile.Body.Span.ToArray()));
         }
     }
 }
