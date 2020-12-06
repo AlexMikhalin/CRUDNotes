@@ -54,7 +54,6 @@ namespace CRUDNotes.Site
                 app.UseDeveloperExceptionPage();
             }
 
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
