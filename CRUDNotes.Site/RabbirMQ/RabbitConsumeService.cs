@@ -16,13 +16,13 @@ using RabbitMQ.Client.Events;
 
 namespace CRUDNotes.Site.RabbirMQ
 {
-    public class RabbitService : BackgroundService
+    public class RabbitConsumeService : BackgroundService
     {
         private IConnection _connection;
         private IModel _channel;
         private ICrudNoteRepository _crudNoteRepository;
 
-        public RabbitService(ILoggerFactory loggerFactory, ICrudNoteRepository crudNoteRepository)
+        public RabbitConsumeService(ILoggerFactory loggerFactory, ICrudNoteRepository crudNoteRepository)
         {
             _crudNoteRepository = crudNoteRepository;
             InitRabbitMQ();
@@ -36,6 +36,19 @@ namespace CRUDNotes.Site.RabbirMQ
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare("notesQueue", false, false, false, null);
+        }
+
+        private void ProduceMessage(NoteDTO dto)
+        {
+            var factory = new ConnectionFactory() { HostName = "localhost" };
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                channel.QueueDeclare(queue: "notesQueue", durable: false, exclusive: false, autoDelete: false, arguments: null);
+                var body = ObjectToByteArray(dto);
+
+                channel.BasicPublish(exchange: "", routingKey: "notesQueue", basicProperties: null, body: body);
+            }
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -68,6 +81,18 @@ namespace CRUDNotes.Site.RabbirMQ
             {
                 object obj = bf.Deserialize(ms);
                 return (T)obj;
+            }
+        }
+
+        byte[] ObjectToByteArray(object obj)
+        {
+            if (obj == null)
+                return null;
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bf.Serialize(ms, obj);
+                return ms.ToArray();
             }
         }
     }

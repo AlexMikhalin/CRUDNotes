@@ -38,13 +38,14 @@ namespace CRUDNotes.Site
             services.AddTransient<ICrudNoteRepository, CrudNoteRepository>(provider => new CrudNoteRepository(connection));
             services.AddTransient<INoteService, NoteService>();
 
+            services.AddHostedService<RabbitConsumeService>();
+            services.AddSingleton<IRabbitMQProduceService, RabbitMQProduceService>();
+
             services.AddMvc();
             Mapper.Initialize(cfg => cfg.CreateMap<NoteDTO, Note>());
 
-            services.AddHostedService<RabbitService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         { 
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));

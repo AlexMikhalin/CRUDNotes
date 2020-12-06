@@ -14,22 +14,27 @@ namespace CRUDNotes.BL.Services
     public class NoteService : INoteService
     {
         private readonly ICrudNoteRepository _crudNoteRepository;
-        public NoteService(ICrudNoteRepository crudNoteRepository)
+        private readonly IRabbitMQProduceService _rabbitMqProduceService;
+        public NoteService(ICrudNoteRepository crudNoteRepository, IRabbitMQProduceService rabbitMqProduceService)
         {
             _crudNoteRepository = crudNoteRepository;
+            _rabbitMqProduceService = rabbitMqProduceService;
         }
         public void CreateNote(NoteDTO dto)
         {
             // _crudNoteRepository.CreateNote(dto);
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(queue: "notesQueue", durable: false, exclusive: false, autoDelete: false, arguments: null);
-                var body = ObjectToByteArray(dto);
 
-                channel.BasicPublish(exchange: "", routingKey: "notesQueue", basicProperties: null, body: body);
-            }
+            //var factory = new ConnectionFactory() { HostName = "localhost" };
+            //using (var connection = factory.CreateConnection())
+            //using (var channel = connection.CreateModel())
+            //{
+            //    channel.QueueDeclare(queue: "notesQueue", durable: false, exclusive: false, autoDelete: false, arguments: null);
+            //    var body = ObjectToByteArray(dto);
+
+            //    channel.BasicPublish(exchange: "", routingKey: "notesQueue", basicProperties: null, body: body);
+            //}
+
+            _rabbitMqProduceService.ProduceMessage(dto);
         }
 
         public List<NoteDTO> GetAllNotes()
