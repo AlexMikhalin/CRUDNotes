@@ -18,21 +18,9 @@ namespace CRUDNotes.BL.Services
             using (var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(queue: "notesQueue", durable: false, exclusive: false, autoDelete: false, arguments: null);
-                var body = ObjectToByteArray(dto);
+                var body = Helper.ObjectToByteArray(dto);
 
                 channel.BasicPublish(exchange: "", routingKey: "notesQueue", basicProperties: null, body: body);
-            }
-        }
-
-        byte[] ObjectToByteArray(object obj)
-        {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
             }
         }
     }

@@ -24,16 +24,6 @@ namespace CRUDNotes.BL.Services
         {
             // _crudNoteRepository.CreateNote(dto);
 
-            //var factory = new ConnectionFactory() { HostName = "localhost" };
-            //using (var connection = factory.CreateConnection())
-            //using (var channel = connection.CreateModel())
-            //{
-            //    channel.QueueDeclare(queue: "notesQueue", durable: false, exclusive: false, autoDelete: false, arguments: null);
-            //    var body = ObjectToByteArray(dto);
-
-            //    channel.BasicPublish(exchange: "", routingKey: "notesQueue", basicProperties: null, body: body);
-            //}
-
             _rabbitMqProduceService.ProduceMessage(dto);
         }
 
@@ -55,18 +45,6 @@ namespace CRUDNotes.BL.Services
         public void EditNote(NoteDTO dto)
         {
             _crudNoteRepository.EditNote(dto);
-        }
-
-        byte[] ObjectToByteArray(object obj)
-        {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
         }
     }
 }
