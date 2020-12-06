@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CRUDNotes.Common
 {
+    [Serializable]
     public class NoteDTO
     {
         public int NoteId { get; set; }

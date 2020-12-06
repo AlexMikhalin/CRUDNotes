@@ -11,6 +11,7 @@ using CRUDNotes.DAL.EF;
 using CRUDNotes.DAL.Entities;
 using CRUDNotes.DAL.Repositories;
 using CRUDNotes.Site.Models;
+using CRUDNotes.Site.RabbirMQ;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,6 +41,7 @@ namespace CRUDNotes.Site
             services.AddMvc();
             Mapper.Initialize(cfg => cfg.CreateMap<NoteDTO, Note>());
 
+            services.AddHostedService<RabbitService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
