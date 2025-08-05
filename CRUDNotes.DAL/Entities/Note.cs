@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CRUDNotes.DAL.Entities
+﻿namespace CRUDNotes.DAL.Entities
 {
     public class Note
     {

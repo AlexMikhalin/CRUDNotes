@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using CRUDNotes.BL.Repositories;
+﻿using CRUDNotes.BL.Repositories;
 using CRUDNotes.Common;
 using RabbitMQ.Client;
 

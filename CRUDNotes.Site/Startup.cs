@@ -4,21 +4,36 @@ using CRUDNotes.BL.Services;
 using CRUDNotes.Common;
 using CRUDNotes.DAL.Entities;
 using CRUDNotes.DAL.Repositories;
+using CRUDNotes.Site.Models;
 using CRUDNotes.Site.RabbirMQ;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace CRUDNotes.Site
 {
-    public class Startup(IConfiguration configuration)
+    public class Startup
     {
-        public IConfiguration Configuration { get; } = configuration;
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICrudNoteRepository, CrudNoteRepository>(provider =>
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            services.AddTransient<ICrudNoteRepository>(provider =>
             {
                 var mapper = provider.GetRequiredService<IMapper>();
-                return new CrudNoteRepository(Configuration.GetConnectionString("DefaultConnection"), mapper);
+                var conn = Configuration.GetConnectionString("DefaultConnection");
+                return new CrudNoteRepository(conn, mapper);
             });
 
             services.AddTransient<INoteService, NoteService>();
@@ -26,26 +41,27 @@ namespace CRUDNotes.Site
             services.AddHostedService<RabbitConsumeService>();
             services.AddSingleton<IRabbitMQProduceService, RabbitMQProduceService>();
 
-            services.AddMvc();
-
-            services.AddAutoMapper(typeof(AutoMapperProfile)); 
             services.AddControllersWithViews();
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
-        { 
+        {
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc(routes =>
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
 
@@ -54,6 +70,7 @@ namespace CRUDNotes.Site
             public AutoMapperProfile()
             {
                 CreateMap<NoteDTO, Note>().ReverseMap();
+                CreateMap<NoteModel, NoteDTO>().ReverseMap();
             }
         }
     }

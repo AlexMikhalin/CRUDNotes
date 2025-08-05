@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using CRUDNotes.BL.Repositories;
+﻿using CRUDNotes.BL.Repositories;
 using CRUDNotes.Common;
 using CRUDNotes.DAL.Repositories;
-using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
 
 namespace CRUDNotes.BL.Services
 {

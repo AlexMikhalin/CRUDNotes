@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CRUDNotes.Common;
+﻿using CRUDNotes.Common;
 
 namespace CRUDNotes.DAL.Repositories
 {

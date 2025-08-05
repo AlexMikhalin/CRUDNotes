@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CRUDNotes.Common;
-using Microsoft.Extensions.Logging;
+﻿using CRUDNotes.Common;
 
 namespace CRUDNotes.BL.Repositories
 {

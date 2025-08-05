@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CRUDNotes.Common
+﻿namespace CRUDNotes.Common
 {
     [Serializable]
     public class NoteDTO
