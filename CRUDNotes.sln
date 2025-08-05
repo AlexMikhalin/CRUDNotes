@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUDNotes.Site", "CRUDNotes.Site\CRUDNotes.Site.csproj", "{C18A7D2A-6E38-4393-B737-0E0C89D8E11D}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUDNotes.DAL", "CRUDNotes.DAL\CRUDNotes.DAL.csproj", "{05554B07-5C17-4CAE-B2CC-1BEC178C9B22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUDNotes.Common", "CRUDNotes.Common\CRUDNotes.Common.csproj", "{F547D25F-C7FB-4F3D-8712-CDAED7693AFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUNotes.Tests", "CRUNotes.Tests\CRUNotes.Tests.csproj", "{4A38BB7E-2767-4C29-893D-C20C55318979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F547D25F-C7FB-4F3D-8712-CDAED7693AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F547D25F-C7FB-4F3D-8712-CDAED7693AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F547D25F-C7FB-4F3D-8712-CDAED7693AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A38BB7E-2767-4C29-893D-C20C55318979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A38BB7E-2767-4C29-893D-C20C55318979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A38BB7E-2767-4C29-893D-C20C55318979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A38BB7E-2767-4C29-893D-C20C55318979}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

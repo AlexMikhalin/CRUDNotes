@@ -1,1 +1,0 @@
-2025-08-05T23:08:08.1122572+03:00  [WRN] The WebRootPath was not found: "C:\Users\AleksandrM\source\repos\CRUDNotes\CRUDNotes.Site\wwwroot". Static files may be unavailable. (3ae2c740)
