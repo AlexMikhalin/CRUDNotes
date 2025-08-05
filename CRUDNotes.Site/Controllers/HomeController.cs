@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CRUDNotes.BL.Repositories;
 using CRUDNotes.Common;
 using CRUDNotes.Site.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CRUDNotes.Site.Controllers
 {

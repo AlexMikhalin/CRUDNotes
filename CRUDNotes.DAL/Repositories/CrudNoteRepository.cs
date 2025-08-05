@@ -1,73 +1,58 @@
-﻿using CRUDNotes.Common;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using CRUDNotes.DAL.EF;
+﻿using AutoMapper;
+using CRUDNotes.Common;
 using CRUDNotes.DAL.Entities;
 using Dapper;
-using Remotion.Linq.Clauses;
-using AutoMapper;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace CRUDNotes.DAL.Repositories
 {
-    public class CrudNoteRepository : ICrudNoteRepository
+    public class CrudNoteRepository(string conn, IMapper mapper) : ICrudNoteRepository
     {
-
-        string connectionString = null;
-
-        public CrudNoteRepository(string conn)
-        {
-            connectionString = conn;
-        }
         public void CreateNote(NoteDTO dto)
         {
-            using (IDbConnection db = new SqlConnection(connectionString))
+            using (IDbConnection db = new SqlConnection(conn))
             {
-               var sqlQuery = "INSERT INTO Notes (Content,CreateDate) VALUES (@Content, @CreateDate)";
-               var note = Mapper.Map(dto, new Note());
-               note.CreateDate = DateTime.Now;
-               db.Execute(sqlQuery, note);
+                var sqlQuery = "INSERT INTO Notes (Content,CreateDate) VALUES (@Content, @CreateDate)";
+                var note = mapper.Map<Note>(dto);
+                note.CreateDate = DateTime.Now;
+                db.Execute(sqlQuery, note);
             }
         }
 
         public List<NoteDTO> FindAllNotes()
         {
-            using (IDbConnection db = new SqlConnection(connectionString))
+            using (IDbConnection db = new SqlConnection(conn))
             {
-                return Mapper.Map<IEnumerable<Note>,List<NoteDTO>>(db.Query<Note>("SELECT * FROM Notes").ToList());  
+                var notes = db.Query<Note>("SELECT * FROM Notes").ToList();
+                return mapper.Map<List<NoteDTO>>(notes);
             }
         }
 
         public void DeleteNote(int id)
         {
-            using (IDbConnection db = new SqlConnection(connectionString))
+            using (IDbConnection db = new SqlConnection(conn))
             {
                 var sqlQuery = "DELETE FROM Notes WHERE NoteId = @id";
                 db.Execute(sqlQuery, new { id });
             }
         }
 
-        public NoteDTO FindNote(int id)
+        public NoteDTO? FindNote(int id)
         {
-            using (IDbConnection db = new SqlConnection(connectionString))
+            using (IDbConnection db = new SqlConnection(conn))
             {
-                Note noteEntity =  db.Query<Note>("SELECT * FROM Notes WHERE NoteId = @id", new { id }).FirstOrDefault();
-                if (noteEntity != null)
-                    return Mapper.Map(noteEntity,new NoteDTO());
-                return null;
+                var noteEntity = db.QueryFirstOrDefault<Note>("SELECT * FROM Notes WHERE NoteId = @id", new { id });
+                return noteEntity != null ? mapper.Map<NoteDTO>(noteEntity) : null;
             }
         }
 
         public void EditNote(NoteDTO dto)
         {
-            using (IDbConnection db = new SqlConnection(connectionString))
+            using (IDbConnection db = new SqlConnection(conn))
             {
                 var sqlQuery = "UPDATE Notes SET Content = @Content, CreateDate = @CreateDate WHERE NoteId = @NoteId";
-                var note = Mapper.Map(dto, new Note());
+                var note = mapper.Map<Note>(dto);
                 note.CreateDate = DateTime.Now;
                 db.Execute(sqlQuery, note);
             }

@@ -1,35 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
+using System.Text.Json;
 
 namespace CRUDNotes.Common
 {
     public static class Helper
     {
-        public static T FromByteArray<T>(byte[] data)
+        public static T? FromByteArray<T>(byte[] data)
         {
-            if (data == null)
-                return default(T);
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream(data))
-            {
-                object obj = bf.Deserialize(ms);
-                return (T)obj;
-            }
+            if (data == null || data.Length == 0)
+                return default;
+
+            return JsonSerializer.Deserialize<T>(data);
         }
 
         public static byte[] ObjectToByteArray(object obj)
         {
             if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
+                return Array.Empty<byte>();
+
+            return JsonSerializer.SerializeToUtf8Bytes(obj, obj.GetType());
         }
     }
 }
