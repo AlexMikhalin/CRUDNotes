@@ -15,12 +15,10 @@ namespace CRUDNotes.Site
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-
             services.AddTransient<ICrudNoteRepository, CrudNoteRepository>(provider =>
             {
                 var mapper = provider.GetRequiredService<IMapper>();
-                return new CrudNoteRepository(connection, mapper);
+                return new CrudNoteRepository(Configuration.GetConnectionString("DefaultConnection"), mapper);
             });
 
             services.AddTransient<INoteService, NoteService>();
@@ -30,8 +28,8 @@ namespace CRUDNotes.Site
 
             services.AddMvc();
 
-            services.AddAutoMapper(typeof(AutoMapperProfile)); // 👈 новая строка
-            services.AddControllersWithViews(); // 👈 обновлённая MVC регистрация
+            services.AddAutoMapper(typeof(AutoMapperProfile)); 
+            services.AddControllersWithViews();
 
         }
 

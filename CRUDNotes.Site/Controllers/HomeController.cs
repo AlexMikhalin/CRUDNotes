@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDNotes.Site.Controllers
 {
-    public class HomeController(INoteService noteService, ILogger<HomeController> log) : Controller
+    public class HomeController(INoteService noteService, ILogger<HomeController> log, IMapper mapper) : Controller
     {
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -21,35 +21,33 @@ namespace CRUDNotes.Site.Controllers
 
         [HttpPost]
         public IActionResult Create(NoteModel model)
-        { 
-            noteService.CreateNote(new NoteDTO() { Content = model.Content });
-            log.LogInformation($"File created with content{model.Content}");
+        {
+            noteService.CreateNote(new NoteDTO { Content = model.Content });
+            log.LogInformation($"Note created with content: {model.Content}");
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            if (id != null)
-            {
-                noteService.DeleteNote(id);
-                return RedirectToAction("Index");
-            }
-
-            return NotFound();
+            noteService.DeleteNote(id);
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
             var editedNote = noteService.GetNote(id);
-            return View(Mapper.Map(editedNote,new NoteModel()));
+            if (editedNote == null)
+                return NotFound();
+
+            var model = mapper.Map<NoteModel>(editedNote);
+            return View(model);
         }
 
         [HttpPost]
         public IActionResult Edit(NoteModel model)
         {
-
-            noteService.EditNote(Mapper.Map(model,new NoteDTO()));
-
+            var dto = mapper.Map<NoteDTO>(model);
+            noteService.EditNote(dto);
             return RedirectToAction("Index");
         }
     }
