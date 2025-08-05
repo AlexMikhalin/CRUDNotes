@@ -6,14 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CRUDNotes.DAL.EF
 {
-    public class DataBaseContext : DbContext
+    public class DataBaseContext(DbContextOptions<DataBaseContext> options) : DbContext(options)
     {
-
-        public DataBaseContext(DbContextOptions<DataBaseContext> options)
-            : base(options)
-        {
-        }
-
         public DbSet<Note> Notes { get; set; }
     }
 }

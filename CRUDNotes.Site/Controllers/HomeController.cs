@@ -6,21 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRUDNotes.Site.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(INoteService noteService, ILogger<HomeController> log) : Controller
     {
-        private readonly INoteService _noteService;
-        private readonly ILogger<HomeController> _log;
-
-        public HomeController(INoteService noteService, ILogger<HomeController> log)
-        {
-            _noteService = noteService;
-            _log = log;
-        }
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(_noteService.GetAllNotes());
+            return View(noteService.GetAllNotes());
         }
 
         public IActionResult Create()
@@ -31,8 +22,8 @@ namespace CRUDNotes.Site.Controllers
         [HttpPost]
         public IActionResult Create(NoteModel model)
         { 
-            _noteService.CreateNote(new NoteDTO() { Content = model.Content });
-            _log.LogInformation($"File created with content{model.Content}");
+            noteService.CreateNote(new NoteDTO() { Content = model.Content });
+            log.LogInformation($"File created with content{model.Content}");
             return RedirectToAction("Index");
         }
 
@@ -40,7 +31,7 @@ namespace CRUDNotes.Site.Controllers
         {
             if (id != null)
             {
-                _noteService.DeleteNote(id);
+                noteService.DeleteNote(id);
                 return RedirectToAction("Index");
             }
 
@@ -49,7 +40,7 @@ namespace CRUDNotes.Site.Controllers
 
         public IActionResult Edit(int id)
         {
-            var editedNote = _noteService.GetNote(id);
+            var editedNote = noteService.GetNote(id);
             return View(Mapper.Map(editedNote,new NoteModel()));
         }
 
@@ -57,7 +48,7 @@ namespace CRUDNotes.Site.Controllers
         public IActionResult Edit(NoteModel model)
         {
 
-            _noteService.EditNote(Mapper.Map(model,new NoteDTO()));
+            noteService.EditNote(Mapper.Map(model,new NoteDTO()));
 
             return RedirectToAction("Index");
         }

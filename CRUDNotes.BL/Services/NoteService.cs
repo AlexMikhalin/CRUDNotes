@@ -11,40 +11,34 @@ using RabbitMQ.Client;
 
 namespace CRUDNotes.BL.Services
 {
-    public class NoteService : INoteService
+    public class NoteService(ICrudNoteRepository crudNoteRepository, IRabbitMQProduceService rabbitMqProduceService)
+        : INoteService
     {
-        private readonly ICrudNoteRepository _crudNoteRepository;
-        private readonly IRabbitMQProduceService _rabbitMqProduceService;
-        public NoteService(ICrudNoteRepository crudNoteRepository, IRabbitMQProduceService rabbitMqProduceService)
-        {
-            _crudNoteRepository = crudNoteRepository;
-            _rabbitMqProduceService = rabbitMqProduceService;
-        }
         public void CreateNote(NoteDTO dto)
         {
             // _crudNoteRepository.CreateNote(dto);
 
-            _rabbitMqProduceService.ProduceMessage(dto);
+            rabbitMqProduceService.ProduceMessage(dto);
         }
 
         public List<NoteDTO> GetAllNotes()
         {
-            return _crudNoteRepository.FindAllNotes();
+            return crudNoteRepository.FindAllNotes();
         }
 
         public void DeleteNote(int id)
         {
-           _crudNoteRepository.DeleteNote(id);
+           crudNoteRepository.DeleteNote(id);
         }
 
         public NoteDTO GetNote(int id)
         {
-            return _crudNoteRepository.FindNote(id);
+            return crudNoteRepository.FindNote(id);
         }
 
         public void EditNote(NoteDTO dto)
         {
-            _crudNoteRepository.EditNote(dto);
+            crudNoteRepository.EditNote(dto);
         }
     }
 }
