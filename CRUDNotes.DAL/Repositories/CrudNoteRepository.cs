@@ -9,7 +9,7 @@ namespace CRUDNotes.DAL.Repositories
 {
     public class CrudNoteRepository(string conn, IMapper mapper) : ICrudNoteRepository
     {
-        public void CreateNote(NoteDTO dto)
+        public void CreateNote(NoteDTO? dto)
         {
             using (IDbConnection db = new SqlConnection(conn))
             {

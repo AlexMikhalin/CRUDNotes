@@ -7,18 +7,17 @@ namespace CRUDNotes.Site.RabbirMQ
 {
     public class RabbitConsumeService : BackgroundService
     {
-        private IConnection _connection;
-        private IModel _channel;
-        private ICrudNoteRepository _crudNoteRepository;
+        private readonly IModel _channel;
+        private readonly ICrudNoteRepository _crudNoteRepository;
 
-        public RabbitConsumeService(ILoggerFactory loggerFactory, ICrudNoteRepository crudNoteRepository)
+        public RabbitConsumeService(ICrudNoteRepository crudNoteRepository)
         {
             _crudNoteRepository = crudNoteRepository;
 
             var factory = new ConnectionFactory { HostName = "localhost" };
 
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
+            var connection = factory.CreateConnection();
+            _channel = connection.CreateModel();
 
             _channel.QueueDeclare("notesQueue", false, false, false, null);
         }

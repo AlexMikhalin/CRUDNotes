@@ -4,7 +4,7 @@ namespace CRUDNotes.DAL.Repositories
 {
     public interface ICrudNoteRepository
     {
-        void CreateNote(NoteDTO dto);
+        void CreateNote(NoteDTO? dto);
         List<NoteDTO> FindAllNotes();
 
         void DeleteNote(int id);
