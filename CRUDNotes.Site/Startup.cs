@@ -5,25 +5,12 @@ using CRUDNotes.Common;
 using CRUDNotes.DAL.Entities;
 using CRUDNotes.DAL.Repositories;
 using CRUDNotes.Site.Models;
-using CRUDNotes.Site.RabbirMQ;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.IO;
 
 namespace CRUDNotes.Site
 {
-    public class Startup
+    public class Startup(IConfiguration configuration)
     {
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public IConfiguration Configuration { get; } = configuration;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -37,9 +24,6 @@ namespace CRUDNotes.Site
             });
 
             services.AddTransient<INoteService, NoteService>();
-
-            services.AddHostedService<RabbitConsumeService>();
-            services.AddSingleton<IRabbitMQProduceService, RabbitMQProduceService>();
 
             services.AddControllersWithViews();
         }

@@ -4,14 +4,12 @@ using CRUDNotes.DAL.Repositories;
 
 namespace CRUDNotes.BL.Services
 {
-    public class NoteService(ICrudNoteRepository crudNoteRepository, IRabbitMQProduceService rabbitMqProduceService)
+    public class NoteService(ICrudNoteRepository crudNoteRepository)
         : INoteService
     {
         public void CreateNote(NoteDTO dto)
         {
-            // _crudNoteRepository.CreateNote(dto);
-
-            rabbitMqProduceService.ProduceMessage(dto);
+            crudNoteRepository.CreateNote(dto);
         }
 
         public List<NoteDTO> GetAllNotes()

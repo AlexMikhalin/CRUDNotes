@@ -341,3 +341,5 @@ healthchecksdb
 /CRUDNotes.Site/logger-20201207.txt
 /CRUDNotes.Site/logger-20201206.txt
 /CRUDNotes.Site/logger-20250805.txt
+*.txt
+/CRUDNotes.Site/logger.txt
