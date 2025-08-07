@@ -2,9 +2,11 @@
 using CRUDNotes.BL.Repositories;
 using CRUDNotes.BL.Services;
 using CRUDNotes.Common;
+using CRUDNotes.DAL.EF;
 using CRUDNotes.DAL.Entities;
 using CRUDNotes.DAL.Repositories;
 using CRUDNotes.Site.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRUDNotes.Site
 {
@@ -16,13 +18,12 @@ namespace CRUDNotes.Site
         {
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            services.AddTransient<ICrudNoteRepository>(provider =>
-            {
-                var mapper = provider.GetRequiredService<IMapper>();
-                var conn = Configuration.GetConnectionString("DefaultConnection");
-                return new CrudNoteRepository(conn, mapper);
-            });
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
+            services.AddDbContext<DataBaseContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            services.AddTransient<ICrudNoteRepository, CrudNoteRepository>();
             services.AddTransient<INoteService, NoteService>();
 
             services.AddControllersWithViews();
@@ -32,13 +33,18 @@ namespace CRUDNotes.Site
         {
             loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
 
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
+                dbContext.Database.EnsureCreated();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
