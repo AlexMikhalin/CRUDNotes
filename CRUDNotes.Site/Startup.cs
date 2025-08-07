@@ -23,7 +23,12 @@ namespace CRUDNotes.Site
             services.AddDbContext<DataBaseContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            services.AddTransient<ICrudNoteRepository, CrudNoteRepository>();
+            services.AddTransient<ICrudNoteRepository>(provider =>
+            {
+                var mapper = provider.GetRequiredService<IMapper>();
+                return new CrudNoteRepository(connectionString, mapper);
+            });
+
             services.AddTransient<INoteService, NoteService>();
 
             services.AddControllersWithViews();
