@@ -77,7 +77,8 @@
 2019-05-17T17:15:25.2888233+03:00 800001a1-0003-fd00-b63f-84710c7967bb [INF] Executed ViewResult - view "Edit" executed in 34.769ms. (f66409e9)
 2019-05-17T17:15:25.2938257+03:00 800001a1-0003-fd00-b63f-84710c7967bb [INF] Executed action "CRUDNotes.Site.Controllers.HomeController.Edit (CRUDNotes.Site)" in 49.5567ms (afa2e885)
 2019-05-17T17:15:25.2975136+03:00 800001a1-0003-fd00-b63f-84710c7967bb [INF] Request finished in 62.7721ms 200 text/html; charset=utf-8 (791a596a)
-2019-05-17T17:15:31.2692815+03:00 800001a3-0003-fd00-b63f-84710c7967bb [INF] Request starting HTTP/2.0 POST https://localhost:44372/Home/Edit/30 application/x-www-form-urlencoded 242 (ca22a1cb)
+2019-05-17T17:15:31.2692815+03:00 800001a3-0003-fd00-b63f-84710c7967bb [INF] Request starting HTTP/2.0 POST https://localhost:44372/Home/Edit/30 application/x-www-form-urlencoded 
+(ca22a1cb)
 2019-05-17T17:15:31.2744653+03:00 800001a3-0003-fd00-b63f-84710c7967bb [INF] Route matched with "{action = \"Edit\", controller = \"Home\"}". Executing action "CRUDNotes.Site.Controllers.HomeController.Edit (CRUDNotes.Site)" (a44c0341)
 2019-05-17T17:15:31.2795553+03:00 800001a3-0003-fd00-b63f-84710c7967bb [INF] Executing action method "CRUDNotes.Site.Controllers.HomeController.Edit (CRUDNotes.Site)" with arguments (["CRUDNotes.Site.Models.NoteModel"]) - Validation state: Valid (4e3479ed)
 2019-05-17T17:16:13.3670555+03:00 8000006e-0000-ff00-b63f-84710c7967bb [INF] Request starting HTTP/2.0 GET https://localhost:44372/   (ca22a1cb)
